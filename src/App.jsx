@@ -15,6 +15,9 @@ function App() {
         </a>
       </div>
       <p>Coming soon...</p>
+      <div>
+        <p>Stay tuned for more updates!</p>
+      </div>
     
     </>
   )
