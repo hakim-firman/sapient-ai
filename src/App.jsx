@@ -1,23 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import logo from './assets/logo.png'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react'
+import Sidebar from './components/Sidebar/Sidebar'
+import Main from './components/Main/Main'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App = () => {
   return (
     <>
-      <div>
-        <a href="./" target="_blank">
-          <img src={logo} className="logo" alt="Vite logo" />
-        </a>
-      </div>
-      <p>Coming soon...</p>
-      <div>
-        <p>Stay tuned for more updates!</p>
-      </div>
+    <div className='flex flex-row '>
+      <Sidebar/>
+      <Main/>
+
+    </div>
     
     </>
   )
