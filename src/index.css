@@ -40,6 +40,10 @@
     @apply rounded-md border-none bg-gradient-to-r from-[#57a1fb] to-[#57a1fb] via-[#a1c4fd] rounded-full h-[10px] w-[100%] animate-pulse
   
   }
+
+  .shadow {
+    @apply shadow-md shadow-black
+  }
  
 }
  

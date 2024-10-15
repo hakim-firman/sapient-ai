@@ -11,24 +11,53 @@ const ContextProvider = ({children}) => {
     const [showResult,setShowResult]=useState(false);
     const [loading,setLoading]=useState(false);
     const [resultData,setResultData]=useState('');
+    const [chatHistory,setChatHistory]=useState([]);
 
-    // const delayPara = (index,nextWord)=>{
-    //     return new Promise((resolve)=>{
-    //         setTimeout(()=>{
-    //             resolve(index);
-    //         },1000)
-    //     })
-    // }
+    const delayPara = (index,nextWord)=>{
+        setTimeout(()=>{
+            setResultData((prev)=>prev+nextWord);
+        },75*index)
+    }
 
-    const onSent=async(prompt)=>{
+    const newChat=()=>{ 
+       
+        setShowResult(false);
+        setLoading(false);
+    }
+
+    const onSent = async(prompt)=>{
         setResultData('');
         setLoading(true);
         setShowResult(true);
-        setRecentPrompt(input);
-        const response=await run(input);
+        let response;
+        if(prompt != undefined)
+        {
+            response=await run(prompt);
+            setRecentPrompt(prompt);
+        }
+        else
+        {
+            if (recentPrompt !== ''&&setResultData !== '') {
+                // setPrevPrompt((prev) => [...prev, recentPrompt]);
+                setChatHistory((prev) => [...prev, { prompt: recentPrompt, response: resultData }]);
+            }
+            response = await run(input);
+            setRecentPrompt(input);
+           
+
+        }
+
+       
+        // const response=await run(input);
         // setResultData(`**${response}**`);
-        setResultData(response);
-        console.log('response:','sdsd')
+        // setResultData(response);
+
+
+        let newResponseArray=response.split(" ");
+        for(let i=0;i<newResponseArray.length;i++)
+        {
+            delayPara(i,newResponseArray[i]+' ');
+        }
         setLoading(false);
         setInput('');
 
@@ -49,7 +78,9 @@ const ContextProvider = ({children}) => {
         loading,
         setLoading,
         resultData,
-        setResultData
+        setResultData,
+        newChat,
+        chatHistory,
     }
     return (
         <Context.Provider value={contextValue}>

@@ -6,7 +6,7 @@ const App = () => {
   return (
     <>
     <div className='flex flex-row '>
-      <Sidebar/>
+      {/* <Sidebar/> */}
       <Main/>
 
     </div>

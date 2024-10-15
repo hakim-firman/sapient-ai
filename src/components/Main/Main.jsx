@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { assets } from "../../assets/assets";
 import { Context } from "../../context/context";
 import TextareaAutosize from "react-textarea-autosize";
@@ -16,6 +16,7 @@ const Main = () => {
     resultData,
     setInput,
     input,
+    chatHistory,
   } = useContext(Context);
 
   const CodeBlock = ({ language, value }) => {
@@ -48,10 +49,18 @@ const Main = () => {
     );
   };
 
+  const resultContainerRef = React.useRef(null);
+
+  useEffect(() => {
+    if (resultContainerRef.current) {
+      resultContainerRef.current.scrollTop = resultContainerRef.current.scrollHeight;
+    }
+  }, [chatHistory, resultData]);
+
   return (
     <div className="main flex-1 min-h-[100vh] relative">
       <div className="flex items-center justify-between text-[22px] p-[20px] text-green-950">
-        <p>Sapient</p>
+        <img src={assets.sapient_logo} className="w-36" alt="" srcset="" />
         <img src={assets.user_icon} className="w-[40px] rounded-full" alt="" />
       </div>
       <div className="main-container max-w-[900px] m-auto  ">
@@ -94,8 +103,51 @@ const Main = () => {
             </div>
           </>
         ) : (
-          <div className="result px-[5%] max-h-[70vh] overflow-y-scroll">
-            <div className="result-title my-[40px] flex flex-row-reverse justify-start items-center gap-[20px]">
+          <div ref={resultContainerRef} className="result px-[5%] max-h-[70vh] overflow-y-scroll">
+            {chatHistory?.map((item) =>(
+              <>
+                <div key={item} className="result-title my-[40px] flex flex-row-reverse text-right justify-start  items-center gap-[20px]">
+                <img
+                  src={assets.user_icon}
+                  alt=""
+                  className="rounded-full w-[40px]"
+                />
+                <p
+                // className='border border-black px-4 py-2 bg-blue-400 rounded-full'
+                >
+                  {item.prompt}
+                </p>
+              </div>
+              <div className="result-data flex items-start gap-[20px]">
+              <img src={assets.gemini_icon} alt="" className="w-[40px]" />
+             
+                  <div>
+                    {/* <ReactMarkdown></ReactMarkdown> */}
+                    <ReactMarkdown
+                      components={{
+                        code({ node, inline, className, children, ...props }) {
+                          const match = /language-(\w+)/.exec(className || "");
+                          return !inline && match ? (
+                            <CodeBlock
+                              language={match[1]}
+                              value={String(children).replace(/\n$/, "")}
+                            />
+                          ) : (
+                            <code className={className} {...props}>
+                              {children}
+                            </code>
+                          );
+                        },
+                      }}
+                    >
+                      {item.response}
+                    </ReactMarkdown>
+                  </div>
+              </div>
+              </>
+            ) )}
+           
+            <div className="result-title my-[40px] flex flex-row-reverse text-right justify-start  items-center gap-[20px]">
               <img
                 src={assets.user_icon}
                 alt=""
@@ -109,7 +161,7 @@ const Main = () => {
             </div>
             <div className="result-data flex items-start gap-[20px]">
               <img src={assets.gemini_icon} alt="" className="w-[40px]" />
-              {console.log("result:", resultData)}
+             
               {
                 loading ? (
                   <div className="loader w-full flex flex-col gap-[10px]">
@@ -150,7 +202,7 @@ const Main = () => {
         )}
 
         <div className="main-bottom absolute bottom-0 w-full   max-w-[900px] px-[20px] m-auto">
-          <div className="flex items-center justify-between gap-[20px] bg-[#f0f4f9] px-[20px] py-[10px] rounded-lg text-[18px]">
+          <div className="flex items-center justify-between gap-[20px] shadow bg-[#f0f4f9] px-[20px] py-[10px] rounded-lg text-[18px]">
             {/* <input  type="text"  placeholder='Enter a Prompt here' /> */}
             <TextareaAutosize
               onChange={(e) => setInput(e.target.value)}
@@ -158,12 +210,13 @@ const Main = () => {
               style={{ resize: "none" }}
               className=" no-resize flex-1 bg-transparent border-none outline-none p-[8px]"
               maxRows={4}
+              placeholder="Enter a Prompt here"
             />
 
             <div className="flex gap-2">
-              <img src={assets.gallery_icon} alt="" />
-              <img src={assets.mic_icon} alt="" />
-              <img src={assets.send_icon} onClick={() => onSent()} alt="" />
+              {!loading?<img src={assets.send_icon} onClick={() => onSent()} alt="" />:
+             null}
+              
             </div>
           </div>
           <p className="text-[13px] text-center my-[15px] mx-auto">
