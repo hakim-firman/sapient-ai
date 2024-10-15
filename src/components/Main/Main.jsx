@@ -59,8 +59,8 @@ const Main = () => {
 
   return (
     <div className="main flex-1 min-h-[100vh] relative">
-      <div className="flex items-center justify-between text-[22px] p-[20px] text-green-950">
-        <img src={assets.sapient_logo} className="w-36" alt="" srcset="" />
+      <div className="flex items-center justify-between  text-[22px] p-[15px] text-green-950 border-b-2 border-black">
+        <img src={assets.sapient_logo} className="w-36" alt=""  />
         <img src={assets.user_icon} className="w-[40px] rounded-full" alt="" />
       </div>
       <div className="main-container max-w-[900px] m-auto  ">
@@ -113,7 +113,7 @@ const Main = () => {
                   className="rounded-full w-[40px]"
                 />
                 <p
-                // className='border border-black px-4 py-2 bg-blue-400 rounded-full'
+                className='border border-black shadow-dark px-4 py-2 bg-blue-400 rounded-base'
                 >
                   {item.prompt}
                 </p>
@@ -124,6 +124,7 @@ const Main = () => {
                   <div>
                     {/* <ReactMarkdown></ReactMarkdown> */}
                     <ReactMarkdown
+                     className='border border-black shadow-dark px-4 py-2 bg-blue-400 rounded-base'
                       components={{
                         code({ node, inline, className, children, ...props }) {
                           const match = /language-(\w+)/.exec(className || "");
@@ -154,7 +155,7 @@ const Main = () => {
                 className="rounded-full w-[40px]"
               />
               <p
-              // className='border border-black px-4 py-2 bg-blue-400 rounded-full'
+               className='border border-black shadow-dark px-4 py-2 bg-blue-400 rounded-base'
               >
                 {recentPrompt}
               </p>
@@ -173,6 +174,7 @@ const Main = () => {
                   <div>
                     {/* <ReactMarkdown></ReactMarkdown> */}
                     <ReactMarkdown
+                     className='border border-black shadow-dark px-4 py-2 bg-blue-400 rounded-base mb-2'
                       components={{
                         code({ node, inline, className, children, ...props }) {
                           const match = /language-(\w+)/.exec(className || "");
@@ -202,7 +204,7 @@ const Main = () => {
         )}
 
         <div className="main-bottom absolute bottom-0 w-full   max-w-[900px] px-[20px] m-auto">
-          <div className="flex items-center justify-between gap-[20px] shadow bg-[#f0f4f9] px-[20px] py-[10px] rounded-lg text-[18px]">
+          <div className="flex items-center justify-between gap-[20px] shadow-light border-black border-2 bg-[#f0f4f9] px-[20px] py-[10px] rounded-lg text-[18px]">
             {/* <input  type="text"  placeholder='Enter a Prompt here' /> */}
             <TextareaAutosize
               onChange={(e) => setInput(e.target.value)}
