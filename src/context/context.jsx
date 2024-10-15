@@ -29,31 +29,13 @@ const ContextProvider = ({children}) => {
         setResultData('');
         setLoading(true);
         setShowResult(true);
-        let response;
-        if(prompt != undefined)
-        {
-            response=await run(prompt);
-            setRecentPrompt(prompt);
+        if (recentPrompt !== ''&&setResultData !== '') {
+            // setPrevPrompt((prev) => [...prev, recentPrompt]);
+            setChatHistory((prev) => [...prev, { prompt: recentPrompt, response: resultData }]);
         }
-        else
-        {
-            if (recentPrompt !== ''&&setResultData !== '') {
-                // setPrevPrompt((prev) => [...prev, recentPrompt]);
-                setChatHistory((prev) => [...prev, { prompt: recentPrompt, response: resultData }]);
-            }
-            response = await run(input);
-            setRecentPrompt(input);
-           
-
-        }
-
-       
-        // const response=await run(input);
-        // setResultData(`**${response}**`);
-        // setResultData(response);
-
-
-        let newResponseArray=response.split(" ");
+        setRecentPrompt(input);
+        const response=await run(input);
+         let newResponseArray=response.split(" ");
         for(let i=0;i<newResponseArray.length;i++)
         {
             delayPara(i,newResponseArray[i]+' ');

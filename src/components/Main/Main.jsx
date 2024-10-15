@@ -157,7 +157,7 @@ const Main = () => {
               <p
                className='border border-black shadow-dark px-4 py-2 bg-blue-400 rounded-base'
               >
-                {recentPrompt}
+                {recentPrompt??'...'}
               </p>
             </div>
             <div className="result-data flex items-start gap-[20px]">
