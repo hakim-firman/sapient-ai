@@ -27,7 +27,7 @@ const Main = () => {
     };
   
     return (
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: 'relative' }} className="w-fit">
         <button
           onClick={copyToClipboard}
           style={{
